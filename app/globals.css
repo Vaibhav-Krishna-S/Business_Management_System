@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warm white / off-white base */
+    --background: 40 33% 98%;
+    --foreground: 30 10% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 30 10% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 10% 12%;
+
+    /* Mango / amber primary */
+    --primary: 32 95% 50%;
+    --primary-foreground: 40 33% 98%;
+
+    --secondary: 40 20% 94%;
+    --secondary-foreground: 30 10% 18%;
+
+    --muted: 40 14% 95%;
+    --muted-foreground: 30 6% 45%;
+
+    --accent: 40 30% 95%;
+    --accent-foreground: 30 10% 18%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Muted green for positive states */
+    --success: 142 52% 38%;
+    --success-foreground: 0 0% 100%;
+
+    /* Amber for warnings */
+    --warning: 38 92% 50%;
+    --warning-foreground: 30 10% 12%;
+
+    --border: 40 14% 90%;
+    --input: 40 14% 88%;
+    --ring: 32 95% 50%;
+
+    /* Chart palette */
+    --chart-1: 32 95% 50%;
+    --chart-2: 142 52% 45%;
+    --chart-3: 200 70% 50%;
+    --chart-4: 280 60% 55%;
+    --chart-5: 0 72% 56%;
+    --chart-6: 48 90% 55%;
+
+    /* Sidebar — deep charcoal */
+    --sidebar: 30 12% 14%;
+    --sidebar-foreground: 40 14% 85%;
+    --sidebar-accent: 32 80% 28%;
+    --sidebar-accent-foreground: 40 33% 98%;
+    --sidebar-border: 30 10% 22%;
+
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: 30 10% 8%;
+    --foreground: 40 20% 92%;
+
+    --card: 30 10% 11%;
+    --card-foreground: 40 20% 92%;
+
+    --popover: 30 10% 11%;
+    --popover-foreground: 40 20% 92%;
+
+    --primary: 32 95% 55%;
+    --primary-foreground: 30 10% 10%;
+
+    --secondary: 30 8% 18%;
+    --secondary-foreground: 40 14% 90%;
+
+    --muted: 30 8% 16%;
+    --muted-foreground: 40 8% 60%;
+
+    --accent: 30 8% 18%;
+    --accent-foreground: 40 14% 90%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --success: 142 52% 42%;
+    --success-foreground: 0 0% 98%;
+
+    --warning: 38 92% 52%;
+    --warning-foreground: 30 10% 10%;
+
+    --border: 30 8% 20%;
+    --input: 30 8% 20%;
+    --ring: 32 95% 55%;
+
+    --chart-1: 32 95% 55%;
+    --chart-2: 142 52% 48%;
+    --chart-3: 200 70% 55%;
+    --chart-4: 280 60% 60%;
+    --chart-5: 0 62% 56%;
+    --chart-6: 48 90% 58%;
+
+    --sidebar: 30 14% 9%;
+    --sidebar-foreground: 40 14% 80%;
+    --sidebar-accent: 32 70% 25%;
+    --sidebar-accent-foreground: 40 33% 98%;
+    --sidebar-border: 30 10% 18%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+}
+
+@layer components {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 9999px;
+  }
+}
+
+/* Remove number input spinners */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
