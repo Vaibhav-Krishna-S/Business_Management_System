@@ -23,6 +23,8 @@ import { ReportsPage } from '@/components/pages/reports';
 import { AutomationPage } from '@/components/pages/automation';
 import { SettingsPage } from '@/components/pages/settings';
 
+export const dynamic = 'force-dynamic';
+
 function AppContent() {
   const [activePage, setActivePage] = useState('overview');
   const { canAccess, role } = useApp();
@@ -33,7 +35,6 @@ function AppContent() {
     }
   };
 
-  // If role changes and current page is not accessible, go to overview
   useEffect(() => {
     if (!canAccess(activePage)) {
       setActivePage('overview');
