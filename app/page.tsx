@@ -27,18 +27,15 @@ export const dynamic = 'force-dynamic';
 
 function AppContent() {
   const [activePage, setActivePage] = useState('overview');
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { canAccess, role } = useApp();
 
   const handleNavigate = (key: string) => {
-    if (canAccess(key)) {
-      setActivePage(key);
-    }
+    if (canAccess(key)) setActivePage(key);
   };
 
   useEffect(() => {
-    if (!canAccess(activePage)) {
-      setActivePage('overview');
-    }
+    if (!canAccess(activePage)) setActivePage('overview');
   }, [role, activePage, canAccess]);
 
   const renderPage = () => {
@@ -61,13 +58,21 @@ function AppContent() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      <Sidebar activePage={activePage} onNavigate={handleNavigate} />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Header onNavigate={handleNavigate} />
+      <Sidebar
+        activePage={activePage}
+        onNavigate={handleNavigate}
+        mobileOpen={mobileOpen}
+        onMobileClose={() => setMobileOpen(false)}
+      />
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
+        <Header
+          onNavigate={handleNavigate}
+          onMobileMenuOpen={() => setMobileOpen(true)}
+        />
         <main className="flex-1 overflow-y-auto scrollbar-thin">
-          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-6">
+          <div className="mx-auto max-w-[1400px] px-3 sm:px-6 py-4 sm:py-6">
             {activePage !== 'overview' && (
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Calendar className="h-4 w-4" />
                   {formatDate(new Date())}

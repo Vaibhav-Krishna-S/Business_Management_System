@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, Plus, Search, ChevronDown, Store, Check, Moon, Sun, Languages } from 'lucide-react';
+import { Bell, Plus, Search, ChevronDown, Store, Check, Moon, Sun, Languages, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -32,16 +32,26 @@ const quickActions = [
   { label: 'Add Customer', key: 'customers' },
 ];
 
-export function Header({ onNavigate }: { onNavigate: (key: string) => void }) {
+interface HeaderProps {
+  onNavigate: (key: string) => void;
+  onMobileMenuOpen?: () => void;
+}
+
+export function Header({ onNavigate, onMobileMenuOpen }: HeaderProps) {
   const { role, setRole, outlet, setOutlet, demoMode, language, setLanguage, theme, toggleTheme } = useApp();
   const tr = (key: string) => translate(key, language);
   const [search, setSearch] = useState('');
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <header className="flex h-16 items-center gap-3 border-b bg-card px-4 sm:px-6">
+    <header className="flex h-16 items-center gap-2 border-b bg-card px-3 sm:px-6">
+      {/* Hamburger — mobile only */}
+      <Button variant="ghost" size="icon" className="lg:hidden h-9 w-9 shrink-0" onClick={onMobileMenuOpen}>
+        <Menu className="h-5 w-5" />
+      </Button>
+
       {/* Search */}
-      <div className="relative flex-1 max-w-md">
+      <div className="relative flex-1 max-w-xs sm:max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           value={search}
@@ -51,16 +61,11 @@ export function Header({ onNavigate }: { onNavigate: (key: string) => void }) {
         />
       </div>
 
-      <div className="flex items-center gap-2 ml-auto">
+      <div className="flex items-center gap-1.5 ml-auto">
         {/* Language toggle */}
-        <Button
-          variant="outline"
-          size="sm"
-          className="gap-1.5 h-9 font-semibold"
-          onClick={() => setLanguage(language === 'en' ? 'ne' : 'en')}
-        >
+        <Button variant="outline" size="sm" className="gap-1.5 h-9 font-semibold text-xs px-2.5" onClick={() => setLanguage(language === 'en' ? 'ne' : 'en')}>
           <Languages className="h-4 w-4" />
-          {language === 'en' ? 'नेपाली' : 'English'}
+          <span className="hidden sm:inline">{language === 'en' ? 'नेपाली' : 'English'}</span>
         </Button>
 
         {/* Dark mode toggle */}
@@ -100,12 +105,7 @@ export function Header({ onNavigate }: { onNavigate: (key: string) => void }) {
             {notifications.slice(0, 5).map((n) => (
               <DropdownMenuItem key={n.id} className="flex flex-col items-start gap-1 py-2.5">
                 <div className="flex items-center gap-2 w-full">
-                  <span
-                    className={cn(
-                      'h-2 w-2 rounded-full shrink-0',
-                      n.type === 'alert' ? 'bg-destructive' : n.type === 'success' ? 'bg-success' : 'bg-chart-3'
-                    )}
-                  />
+                  <span className={cn('h-2 w-2 rounded-full shrink-0', n.type === 'alert' ? 'bg-destructive' : n.type === 'success' ? 'bg-success' : 'bg-chart-3')} />
                   <span className="text-sm font-medium flex-1">{n.title}</span>
                   {!n.read && <span className="h-2 w-2 rounded-full bg-primary" />}
                 </div>
@@ -139,7 +139,7 @@ export function Header({ onNavigate }: { onNavigate: (key: string) => void }) {
         {/* Outlet selector */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="hidden md:flex gap-2 h-9 max-w-[200px]">
+            <Button variant="outline" size="sm" className="hidden md:flex gap-2 h-9 max-w-[180px]">
               <Store className="h-4 w-4 text-muted-foreground" />
               <span className="truncate">{outlet.replace('The Mango Resort — ', '')}</span>
               <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
@@ -162,9 +162,7 @@ export function Header({ onNavigate }: { onNavigate: (key: string) => void }) {
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2 rounded-lg p-1 pr-2 hover:bg-accent transition-colors">
               <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-primary/15 text-primary text-xs font-semibold">
-                  AD
-                </AvatarFallback>
+                <AvatarFallback className="bg-primary/15 text-primary text-xs font-semibold">AD</AvatarFallback>
               </Avatar>
               <div className="hidden lg:flex flex-col items-start leading-none">
                 <span className="text-xs font-semibold">{tr('Admin')}</span>
